@@ -32,19 +32,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LinearLayout lv = new LinearLayout(this);
-        lv.setLayoutParams(layoutParams);
-        View v = new TextView(this);
-        v.setLayoutParams(layoutParams);
-        v.setId(R.id.reservedId);
-        lv.addView(v);
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLinearLayoutManager);
-        AdapterRecylerView mAdapter = new AdapterRecylerView(this, lv);
+        AdapterRecylerView mAdapter = new AdapterRecylerView(this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -72,15 +64,21 @@ public class MainActivity extends AppCompatActivity {
 
     private class AdapterRecylerView extends RecyclerView.Adapter<AdapterRecylerView.ViewHolder>{
         private Context context;
-        private View lv;
 
-        public AdapterRecylerView(Context context, LinearLayout lv) {
+        public AdapterRecylerView(Context context) {
             this.context = context;
-            this.lv = lv;
         }
 
         @Override
         public AdapterRecylerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout lv = new LinearLayout(parent.getContext());
+            lv.setLayoutParams(layoutParams);
+            View v = new TextView(parent.getContext());
+            v.setLayoutParams(layoutParams);
+            v.setId(R.id.reservedId);
+            lv.addView(v);
+
             ViewHolder vh = new ViewHolder(lv);
             return vh;
         }
