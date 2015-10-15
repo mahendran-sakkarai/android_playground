@@ -107,15 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
                 return vh;
             } else if (viewType == TYPE_SECOND_LIST_ITEM) {
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                LinearLayout lv = new LinearLayout(parent.getContext());
-                lv.setLayoutParams(layoutParams);
-                View v = new TextView(parent.getContext());
-                v.setLayoutParams(layoutParams);
-                v.setId(R.id.reservedId);
-                lv.addView(v);
+                View v = LayoutInflater.from(parent.getContext()).inflate(
+                        android.R.layout.two_line_list_item, parent, false);
+                ViewHolder vh = new ViewHolder(v, viewType);
 
-                ViewHolder vh = new ViewHolder(lv, viewType);
                 return vh;
             }
 
@@ -130,11 +125,13 @@ public class MainActivity extends AppCompatActivity {
             } else if (isPositionBanner(position)) {
                 holder.mTextView.setText("banner " + (position + 1));
             } else if (isPositionFirstListItems(position)) {
-                holder.mTextView.setText("list item" + (position + 1));
+                holder.mTextView.setText("list item " + (position + 1));
             } else if (isPositionHeaderAfterFirstListItem(position)) {
-                holder.mTextView.setText("second header" + (position + 1));
+                holder.mTextView.setText("second header " + (position + 1));
             } else if (isPositionSecondListItem(position)) {
-                holder.mTextView.setText("second list" + (position + 1));
+                holder.mTextView.setText("second list first line " + (position + 1));
+                holder.mTextView1.setText("second list second line " + (position + 1));
+                holder.mTextView1.setBackgroundResource(android.R.drawable.divider_horizontal_bright);
             }
         }
 
@@ -194,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             public ImageView icon;
             public TextView mTextView;
+            public TextView mTextView1;
 
             public ViewHolder(View itemView, int viewType) {
                 super(itemView);
@@ -207,7 +205,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (viewType == TYPE_HEADER_AFTER_FIRST_LIST_ITEM) {
                     mTextView = (TextView) itemView.findViewById(android.R.id.text1);
                 } else if (viewType == TYPE_SECOND_LIST_ITEM) {
-                    mTextView = (TextView) itemView.findViewById(R.id.reservedId);
+                    mTextView = (TextView) itemView.findViewById(android.R.id.text1);
+                    mTextView1 = (TextView) itemView.findViewById(android.R.id.text2);
                 }
             }
         }
