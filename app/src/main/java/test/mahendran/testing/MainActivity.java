@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -62,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class AdapterRecylerView extends RecyclerView.Adapter<AdapterRecylerView.ViewHolder>{
+    private class AdapterRecylerView extends RecyclerView.Adapter<AdapterRecylerView.ViewHolder> {
+        private static final int TYPE_HEADER = 1;
+        private static final int TYPE_BANNER = 2;
+        private static final int TYPE_FIRST_LIST_ITEM = 3;
+        private static final int TYPE_HEADER_AFTER_FIRST_LIST_ITEM = 4;
+        private static final int TYPE_SECOND_LIST_ITEM = 5;
         private Context context;
 
         public AdapterRecylerView(Context context) {
@@ -71,21 +77,65 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public AdapterRecylerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            LinearLayout lv = new LinearLayout(parent.getContext());
-            lv.setLayoutParams(layoutParams);
-            View v = new TextView(parent.getContext());
-            v.setLayoutParams(layoutParams);
-            v.setId(R.id.reservedId);
-            lv.addView(v);
+            if (viewType == TYPE_HEADER) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(
+                        android.R.layout.activity_list_item, parent, false);
+                ViewHolder vh = new ViewHolder(v, viewType);
 
-            ViewHolder vh = new ViewHolder(lv);
-            return vh;
+                return vh;
+            } else if (viewType == TYPE_BANNER) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(
+                        android.R.layout.simple_list_item_checked, parent, false);
+                ViewHolder vh = new ViewHolder(v, viewType);
+
+                return vh;
+            } else if (viewType == TYPE_FIRST_LIST_ITEM) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                LinearLayout lv = new LinearLayout(parent.getContext());
+                lv.setLayoutParams(layoutParams);
+                View v = new TextView(parent.getContext());
+                v.setLayoutParams(layoutParams);
+                v.setId(R.id.reservedId);
+                lv.addView(v);
+
+                ViewHolder vh = new ViewHolder(lv, viewType);
+                return vh;
+            } else if (viewType == TYPE_HEADER_AFTER_FIRST_LIST_ITEM) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(
+                        android.R.layout.simple_list_item_checked, parent, false);
+                ViewHolder vh = new ViewHolder(v, viewType);
+
+                return vh;
+            } else if (viewType == TYPE_SECOND_LIST_ITEM) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                LinearLayout lv = new LinearLayout(parent.getContext());
+                lv.setLayoutParams(layoutParams);
+                View v = new TextView(parent.getContext());
+                v.setLayoutParams(layoutParams);
+                v.setId(R.id.reservedId);
+                lv.addView(v);
+
+                ViewHolder vh = new ViewHolder(lv, viewType);
+                return vh;
+            }
+
+            throw new RuntimeException("No View Found for view type");
         }
 
         @Override
         public void onBindViewHolder(AdapterRecylerView.ViewHolder holder, int position) {
-            holder.mTextView.setText(""+(position+1));
+            if (isPositionHeader(position)) {
+                holder.icon.setImageResource(R.mipmap.ic_launcher);
+                holder.mTextView.setText("header " + (position + 1));
+            } else if (isPositionBanner(position)) {
+                holder.mTextView.setText("banner " + (position + 1));
+            } else if (isPositionFirstListItems(position)) {
+                holder.mTextView.setText("list item" + (position + 1));
+            } else if (isPositionHeaderAfterFirstListItem(position)) {
+                holder.mTextView.setText("second header" + (position + 1));
+            } else if (isPositionSecondListItem(position)) {
+                holder.mTextView.setText("second list" + (position + 1));
+            }
         }
 
         @Override
@@ -93,12 +143,72 @@ public class MainActivity extends AppCompatActivity {
             return 100;
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        @Override
+        public int getItemViewType(int position) {
+            if (isPositionHeader(position)) {
+                return TYPE_HEADER;
+            } else if (isPositionBanner(position)) {
+                return TYPE_BANNER;
+            } else if (isPositionFirstListItems(position)) {
+                return TYPE_FIRST_LIST_ITEM;
+            } else if (isPositionHeaderAfterFirstListItem(position)) {
+                return TYPE_HEADER_AFTER_FIRST_LIST_ITEM;
+            } else if (isPositionSecondListItem(position)) {
+                return TYPE_SECOND_LIST_ITEM;
+            }
+            return TYPE_SECOND_LIST_ITEM;
+        }
+
+        private boolean isPositionSecondListItem(int position) {
+            if(position > 50 && position <= 100)
+                return true;
+            return false;
+        }
+
+        private boolean isPositionHeaderAfterFirstListItem(int position) {
+            if(position == 50)
+                return true;
+
+            return false;
+        }
+
+        private boolean isPositionFirstListItems(int position) {
+            if(position > 1 && position <= 49)
+                return true;
+            return false;
+        }
+
+        private boolean isPositionBanner(int position) {
+            if(position == 1)
+                return true;
+
+            return false;
+        }
+
+        private boolean isPositionHeader(int position) {
+            if(position == 0)
+                return true;
+            return false;
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public ImageView icon;
             public TextView mTextView;
 
-            public ViewHolder(View itemView) {
+            public ViewHolder(View itemView, int viewType) {
                 super(itemView);
-                mTextView = (TextView) itemView.findViewById(R.id.reservedId);
+                if (viewType == TYPE_HEADER) {
+                    icon = (ImageView) itemView.findViewById(android.R.id.icon);
+                    mTextView = (TextView) itemView.findViewById(android.R.id.text1);
+                } else if (viewType == TYPE_BANNER) {
+                    mTextView = (TextView) itemView.findViewById(android.R.id.text1);
+                } else if (viewType == TYPE_FIRST_LIST_ITEM) {
+                    mTextView = (TextView) itemView.findViewById(R.id.reservedId);
+                } else if (viewType == TYPE_HEADER_AFTER_FIRST_LIST_ITEM) {
+                    mTextView = (TextView) itemView.findViewById(android.R.id.text1);
+                } else if (viewType == TYPE_SECOND_LIST_ITEM) {
+                    mTextView = (TextView) itemView.findViewById(R.id.reservedId);
+                }
             }
         }
     }
