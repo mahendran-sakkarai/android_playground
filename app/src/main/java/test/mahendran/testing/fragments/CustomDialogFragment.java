@@ -39,7 +39,11 @@ public class CustomDialogFragment extends DialogFragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO handle the Back button
+                /** TODO handle the Back button (OR)
+                    Communicate to the MainActivity to dismiss the dialog
+                    To know more about communicating from fragment to main activity check this thread
+                    http://stackoverflow.com/a/34498055/3049065
+                 **/
             }
         });
 
