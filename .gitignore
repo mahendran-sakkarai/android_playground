@@ -29,3 +29,5 @@ proguard/
 /.idea
 .DS_Store
 /captures
+
+/Testing.iml
