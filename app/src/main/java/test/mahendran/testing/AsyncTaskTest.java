@@ -1,6 +1,7 @@
 package test.mahendran.testing;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class AsyncTaskTest extends AppCompatActivity {
     private TextView mTv;
@@ -34,7 +36,13 @@ public class AsyncTaskTest extends AppCompatActivity {
         } else {
             DownloadTask downloadTask = new DownloadTask(this);
             mAsyncTaskContext = new WeakReference<>(downloadTask);
-            downloadTask.execute("https://github.com/nickbutcher/plaid/archive/master.zip");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                // AsyncTask.THREAD_POOL_EXECUTOR - Execute multiple asynctask at once
+                // AsyncTask.SERIAL_EXECUTOR - Execute asynctask in queue. Once at a time.
+                downloadTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, "https://github.com/nickbutcher/plaid/archive/master.zip");
+            } else {
+                downloadTask.execute("https://github.com/nickbutcher/plaid/archive/master.zip");
+            }
         }
     }
 
@@ -51,6 +59,11 @@ public class AsyncTaskTest extends AppCompatActivity {
         return weakReference;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mAsyncTaskContext.get().cancel(true);
+    }
 
     static class DownloadTask extends AsyncTask<String, Integer, String> {
         private PowerManager.WakeLock mWakeLock;
