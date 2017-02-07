@@ -19,7 +19,7 @@ public class App extends Application {
     private void initRealm() {
         Realm.init(this);
         RealmConfiguration mConfig = new RealmConfiguration.Builder()
-                .schemaVersion(1)
+                .schemaVersion(2)
                 .migration(new DataMigration())
                 .build();
         Realm.setDefaultConfiguration(mConfig);

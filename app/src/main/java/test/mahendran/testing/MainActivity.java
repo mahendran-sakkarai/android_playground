@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void execute(Realm realm) {
                 Car tata = realm.createObject(Car.class);
-                tata.setId("1");
+                tata.setId(1);
                 tata.setName("TATA");
 
                 Car bmw = realm.createObject(Car.class);
-                bmw.setId("2");
+                bmw.setId(2);
                 bmw.setName("BMW");
             }
         });
