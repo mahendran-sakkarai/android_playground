@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 
 import com.flipkart.android.proteus.builder.LayoutBuilder;
 import com.flipkart.android.proteus.builder.LayoutBuilderFactory;
+import com.flipkart.android.proteus.parser.ViewParser;
+import com.flipkart.android.proteus.parser.custom.ViewGroupParser;
 import com.flipkart.android.proteus.view.ProteusView;
-import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
 
 import test.mahendran.testing.model.Question;
+import test.mahendran.testing.parser.RadioButtonParser;
+import test.mahendran.testing.parser.RadioGroupParser;
+import test.mahendran.testing.parser.SpinnerParser;
 
 /**
  * Created by user on 2/7/2017.
@@ -28,7 +30,7 @@ public class QuestionFragment extends Fragment {
 
     }
 
-    public QuestionFragment newInstance() {
+    public static QuestionFragment newInstance() {
         return new QuestionFragment();
     }
 
@@ -39,8 +41,11 @@ public class QuestionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LayoutBuilder layoutBuilder = new LayoutBuilderFactory().getDataParsingLayoutBuilder();
-        ProteusView view = layoutBuilder.build(container, Utils.createView(container.getContext(), mQuestion), null, 0, null);
+        LayoutBuilder layoutBuilder = new LayoutBuilderFactory().getSimpleLayoutBuilder();
+        layoutBuilder.registerHandler("Spinner", new SpinnerParser(new ViewParser()));
+        layoutBuilder.registerHandler("RadioGroup", new RadioGroupParser(new ViewGroupParser(new ViewParser())));
+        layoutBuilder.registerHandler("RadioButton", new RadioButtonParser(new ViewParser()));
+        ProteusView view = layoutBuilder.build(container, Utils.createView(getActivity(), mQuestion), null, 0, null);
 
         return (View) view;
     }

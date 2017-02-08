@@ -11,7 +11,7 @@ public enum QuestionType {
     TEXT,
     @SerializedName("options")
     OPTION,
-    @SerializedName("option_with_user_input")
+    @SerializedName("options_with_user_input")
     OPTION_WITH_USER_INPUT,
     @SerializedName("sub_questions")
     SUB_QUESTIONS

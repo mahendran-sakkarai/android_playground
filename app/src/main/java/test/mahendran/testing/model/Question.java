@@ -2,13 +2,14 @@ package test.mahendran.testing.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by user on 2/7/2017.
  */
 
-public class Question<ANSWER_TYPE, OPTION_TYPE>{
+public class Question{
     @SerializedName("id")
     private int id;
 
@@ -22,19 +23,19 @@ public class Question<ANSWER_TYPE, OPTION_TYPE>{
     private SelectionType selectionType;
 
     @SerializedName("options")
-    private OPTION_TYPE options;
+    private HashMap<String, String> options;
 
     @SerializedName("selectionCount")
     private int selectionCount;
 
     @SerializedName("answer")
-    private ANSWER_TYPE answer;
+    private ArrayList<Answer> answer;
 
     @SerializedName("customView")
     private String customView;
 
     @SerializedName("questions")
-    private List<Question> questions;
+    private ArrayList<Question> questions;
 
     public int getId() {
         return id;
@@ -68,11 +69,11 @@ public class Question<ANSWER_TYPE, OPTION_TYPE>{
         this.selectionType = selectionType;
     }
 
-    public OPTION_TYPE getOptions() {
+    public HashMap<String, String> getOptions() {
         return options;
     }
 
-    public void setOptions(OPTION_TYPE options) {
+    public void setOptions(HashMap<String, String> options) {
         this.options = options;
     }
 
@@ -84,11 +85,11 @@ public class Question<ANSWER_TYPE, OPTION_TYPE>{
         this.selectionCount = selectionCount;
     }
 
-    public ANSWER_TYPE getAnswer() {
+    public ArrayList<Answer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(ANSWER_TYPE answer) {
+    public void setAnswer(ArrayList<Answer> answer) {
         this.answer = answer;
     }
 
@@ -100,11 +101,11 @@ public class Question<ANSWER_TYPE, OPTION_TYPE>{
         this.customView = customView;
     }
 
-    public List<Question> getQuestions() {
+    public ArrayList<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
     }
 }
