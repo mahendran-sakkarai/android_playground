@@ -1,12 +1,12 @@
 [
   {
     "question": "Why this as question111111111?",
-    "id": "1",
+    "id": "q1",
     "questionType": "sub_questions",
     "questions": [
       {
         "question": "Why this as question 1?",
-        "id": "2",
+        "id": "q1_1",
         "questionType": "options",
         "selectionType": "radio",
         "options": {
@@ -17,7 +17,7 @@
       },
       {
         "question": "Why this as question 2?",
-        "id": "3",
+        "id": "q1_2",
         "questionType": "options_with_user_input",
         "selectionType": "check_box",
         "options": {
@@ -29,42 +29,24 @@
     ]
   },
   {
-    "question": "Why this as question222222222222222?",
-    "id": "1",
-    "questionType": "sub_questions",
-    "questions": [
-      {
-        "question": "Why this as question 1?",
-        "id": "2",
-        "questionType": "options",
-        "selectionType": "radio",
-        "options": {
-          "1": "1",
-          "2": "2",
-          "3": "3"
-        }
-      },
-      {
-        "question": "Why this as question 2?",
-        "id": "3",
-        "questionType": "options_with_user_input",
-        "selectionType": "check_box",
-        "options": {
-          "1": "1",
-          "2": "2",
-          "3": "3"
-        }
-      }
-    ]
+    "question": "Why this as question 2?",
+    "id": "q2",
+    "questionType": "options_with_user_input",
+    "selectionType": "check_box",
+    "options": {
+      "1": "1",
+      "2": "2",
+      "3": "3"
+    }
   },
   {
     "question": "Why this as question33333333333333?",
-    "id": "1",
+    "id": "q3",
     "questionType": "sub_questions",
     "questions": [
       {
         "question": "Why this as question 1?",
-        "id": "2",
+        "id": "q3_1",
         "questionType": "options",
         "selectionType": "radio",
         "options": {
@@ -75,7 +57,7 @@
       },
       {
         "question": "Why this as question 2?",
-        "id": "3",
+        "id": "q3_2",
         "questionType": "options_with_user_input",
         "selectionType": "check_box",
         "options": {

@@ -19,25 +19,33 @@ import java.util.Iterator;
 import java.util.Map;
 
 import test.mahendran.testing.model.Question;
+import test.mahendran.testing.model.QuestionType;
 
 /**
  * Created by user on 2/7/2017.
  */
 
 public class Utils {
-    public static JsonObject createView(Context context, Question question) {
-        JsonObject baseViewObject = new JsonObject();
+    public static JsonObject createView(Question question) {
+        JsonObject response = new JsonObject();
         if (question != null) {
-            baseViewObject = getBaseView("ScrollView", "match_parent", "match_parent", null);
+            JsonObject idList = new JsonObject();
+            JsonObject baseViewObject = getBaseView("ScrollView", "match_parent", "match_parent", null);
             baseViewObject.addProperty("background", "#FFFFFF");
-            JsonArray scrollViewChildren = new JsonArray();
-            scrollViewChildren.add(getChildLayouts(question));
-            baseViewObject.add("children", scrollViewChildren);
+            baseViewObject.addProperty("clickable", "true");
+            JsonElement questions = getChildLayouts(question, idList);
+            if (questions != null) {
+                JsonArray scrollViewChildren = new JsonArray();
+                scrollViewChildren.add(questions);
+                baseViewObject.add("children", scrollViewChildren);
+            }
+
+            response.add("view", baseViewObject);
         }
-        return baseViewObject;
+        return response;
     }
 
-    private static JsonElement getChildLayouts(Question question) {
+    private static JsonElement getChildLayouts(Question question, JsonObject idList) {
         JsonObject baseLayout = getBaseView("LinearLayout", "match_parent", "match_parent", "vertical");
         JsonArray childrenLayout = new JsonArray();
         if (question.getQuestion() != null) {
@@ -45,6 +53,18 @@ public class Utils {
             questionView.addProperty("text", question.getQuestion());
             childrenLayout.add(questionView);
         }
+
+        if (question.getQuestionType() != QuestionType.SUB_QUESTIONS && question.getId() == null) {
+            try {
+                throw new IdRequiredException();
+            } catch (IdRequiredException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+
+        }
+
         switch (question.getQuestionType()) {
             case TEXT:
                 JsonObject editTextLayout = getBaseView("EditText", "match_parent", "wrap_content", null);
@@ -57,7 +77,7 @@ public class Utils {
                 addOptionsRelatedView(childrenLayout, question, true);
                 break;
             case SUB_QUESTIONS:
-                addSubQuestions(childrenLayout, question);
+                addSubQuestions(childrenLayout, question, idList);
                 break;
         }
 
@@ -66,10 +86,12 @@ public class Utils {
         return baseLayout;
     }
 
-    private static void addSubQuestions(JsonArray container, Question baseQuestion) {
+    private static void addSubQuestions(JsonArray container, Question baseQuestion, JsonObject idList) {
         for (int i = 0; i < baseQuestion.getQuestions().size(); i++) {
-            Question question = (Question) baseQuestion.getQuestions().get(i);
-            container.add(getChildLayouts(question));
+            Question question = baseQuestion.getQuestions().get(i);
+            JsonElement questionLayout = getChildLayouts(question, idList);
+            if (questionLayout != null)
+                container.add(questionLayout);
         }
     }
 
@@ -82,35 +104,47 @@ public class Utils {
         }
         switch (question.getSelectionType()) {
             case RADIO:
-                JsonObject radioGroup = getBaseView("RadioGroup", "wrap_content", "wrap_content", "vertical");
-                JsonArray radioButtons = new JsonArray();
-                for (int i = 0; i < options.size(); i++) {
-                    JsonObject optionsLayout = getBaseView("RadioButton", "wrap_content", "wrap_content", null);
-                    optionsLayout.addProperty("text", options.get(i).toString());
-                    radioButtons.add(optionsLayout);
-                }
-                radioGroup.add("children", radioButtons);
-                container.add(radioGroup);
-                if (user_input)
-                    addUserInputView(container);
+                generateRadioGroup(options, container, user_input);
                 break;
             case CHECK_BOX:
-                for (int i = 0; i < options.size(); i++) {
-                    JsonObject optionsLayout = getBaseView("CheckBox", "wrap_content", "wrap_content", null);
-                    optionsLayout.addProperty("text", options.get(i).toString());
-                    container.add(optionsLayout);
-                    if (user_input)
-                        addUserInputView(container);
-                }
+                generateCheckBox(options, container, user_input);
                 break;
             case DROPDOWN:
-                JsonObject optionsLayout = getBaseView("Spinner", "match_parent", "wrap_content", null);
-                //optionsLayout.addProperty("entries", "$options");
-                container.add(optionsLayout);
-                if (user_input)
-                    addUserInputView(container);
+                generateSpinner(options, container, user_input);
                 break;
         }
+    }
+
+    private static void generateSpinner(JsonArray options, JsonArray container, boolean user_input) {
+        JsonObject optionsLayout = getBaseView("Spinner", "match_parent", "wrap_content", null);
+        //optionsLayout.addProperty("entries", "$options");
+        container.add(optionsLayout);
+        if (user_input)
+            addUserInputView(container);
+    }
+
+    private static void generateCheckBox(JsonArray options, JsonArray container, boolean user_input) {
+        for (int i = 0; i < options.size(); i++) {
+            JsonObject optionsLayout = getBaseView("CheckBox", "wrap_content", "wrap_content", null);
+            optionsLayout.addProperty("text", options.get(i).toString());
+            container.add(optionsLayout);
+            if (user_input)
+                addUserInputView(container);
+        }
+    }
+
+    private static void generateRadioGroup(JsonArray options, JsonArray container, boolean user_input) {
+        JsonObject radioGroup = getBaseView("RadioGroup", "wrap_content", "wrap_content", "horizontal");
+        JsonArray radioButtons = new JsonArray();
+        for (int i = 0; i < options.size(); i++) {
+            JsonObject optionsLayout = getBaseView("RadioButton", "wrap_content", "wrap_content", null);
+            optionsLayout.addProperty("text", options.get(i).toString());
+            radioButtons.add(optionsLayout);
+        }
+        radioGroup.add("children", radioButtons);
+        container.add(radioGroup);
+        if (user_input)
+            addUserInputView(container);
     }
 
     private static void addUserInputView(JsonArray container) {

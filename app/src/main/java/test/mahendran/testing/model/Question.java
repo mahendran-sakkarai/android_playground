@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Question{
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("question")
     private String question;
@@ -28,20 +28,14 @@ public class Question{
     @SerializedName("selectionCount")
     private int selectionCount;
 
-    @SerializedName("answer")
-    private ArrayList<Answer> answer;
-
-    @SerializedName("customView")
-    private String customView;
-
     @SerializedName("questions")
     private ArrayList<Question> questions;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -83,22 +77,6 @@ public class Question{
 
     public void setSelectionCount(int selectionCount) {
         this.selectionCount = selectionCount;
-    }
-
-    public ArrayList<Answer> getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(ArrayList<Answer> answer) {
-        this.answer = answer;
-    }
-
-    public String getCustomView() {
-        return customView;
-    }
-
-    public void setCustomView(String customView) {
-        this.customView = customView;
     }
 
     public ArrayList<Question> getQuestions() {

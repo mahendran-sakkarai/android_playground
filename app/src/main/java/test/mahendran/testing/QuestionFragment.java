@@ -13,7 +13,8 @@ import com.flipkart.android.proteus.parser.ViewParser;
 import com.flipkart.android.proteus.parser.custom.ViewGroupParser;
 import com.flipkart.android.proteus.view.ProteusView;
 
-import test.mahendran.testing.model.Question;
+import java.util.ArrayList;
+
 import test.mahendran.testing.parser.RadioButtonParser;
 import test.mahendran.testing.parser.RadioGroupParser;
 import test.mahendran.testing.parser.SpinnerParser;
@@ -23,8 +24,8 @@ import test.mahendran.testing.parser.SpinnerParser;
  */
 
 public class QuestionFragment extends Fragment {
-    private static final String QUESTION_KEY = "question";
-    private Question mQuestion;
+    private InteractionListener mListener;
+    private ArrayList<String> mIds = new ArrayList<>();
 
     public QuestionFragment() {
 
@@ -34,10 +35,6 @@ public class QuestionFragment extends Fragment {
         return new QuestionFragment();
     }
 
-    public void setQuestion(Question question) {
-        this.mQuestion = question;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,8 +42,22 @@ public class QuestionFragment extends Fragment {
         layoutBuilder.registerHandler("Spinner", new SpinnerParser(new ViewParser()));
         layoutBuilder.registerHandler("RadioGroup", new RadioGroupParser(new ViewGroupParser(new ViewParser())));
         layoutBuilder.registerHandler("RadioButton", new RadioButtonParser(new ViewParser()));
-        ProteusView view = layoutBuilder.build(container, Utils.createView(getActivity(), mQuestion), null, 0, null);
+        ProteusView view = layoutBuilder.build(container, Utils.createView(mListener.getQuestion()), null, 0, null);
 
         return (View) view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    public void setQuestionListener(InteractionListener listener) {
+        this.mListener = listener;
     }
 }
