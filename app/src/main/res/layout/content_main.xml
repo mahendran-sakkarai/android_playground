@@ -16,5 +16,5 @@
         android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/endless_location_journey"/>
+        android:src="@drawable/lup_tup"/>
 </RelativeLayout>
