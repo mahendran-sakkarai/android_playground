@@ -29,6 +29,22 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mContainer = (RelativeLayout) findViewById(R.id.container);
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                    executeBackgroundChangeUsingValueAnimator();
+                } else {
+                    executeBackgroundChange();
+                }
+            }
+        });
+    }
+
+    private void executeBackgroundChange() {
         // Handler and runnable to run the animation in devices sdk below honeycomb.
         mHandler = new Handler();
         mChangeBackgroundRunnable = new Runnable() {
@@ -45,20 +61,9 @@ public class MainActivity extends AppCompatActivity {
                     number = 0;
             }
         };
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                    executeBackgroundChangeUsingValueAnimator();
-                } else {
-                    number = 0;
-                    mHandler.removeCallbacks(mChangeBackgroundRunnable);
-                    mHandler.postDelayed(mChangeBackgroundRunnable, 0);
-                }
-            }
-        });
+        number = 0;
+        mHandler.removeCallbacks(mChangeBackgroundRunnable);
+        mHandler.postDelayed(mChangeBackgroundRunnable, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
