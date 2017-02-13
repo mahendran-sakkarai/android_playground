@@ -15,7 +15,6 @@ public class MusicDB extends SQLiteOpenHelper {
 
     public MusicDB(Context context) {
         super(context, DB_NAME, null, mDbVersion);
-        Log.v(MusicDB.class.getSimpleName(), "Called music db constructor");
     }
 
     @Override
