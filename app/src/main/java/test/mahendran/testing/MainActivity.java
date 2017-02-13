@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -20,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private ItemsAdapter mAdapter;
     private int finalCount = 89;
     private boolean loading;
-    private int previousTotal = 0;
-    private int currentPage = 1;
+    private int currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, 1);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new ItemsAdapter();
         mRecyclerView.setAdapter(mAdapter);
@@ -45,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
                 int listItemCount = recyclerView.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                int[] visibleItems = new int[3];
+                visibleItems = layoutManager.findFirstVisibleItemPositions(visibleItems);
 
-                if (!loading && (totalItemCount - listItemCount) <= (firstVisibleItemPosition + 5) && totalItemCount < finalCount) {
+                if (!loading && (totalItemCount - listItemCount) <= (visibleItems[0] + 5) && totalItemCount < finalCount) {
                     mAdapter.setLoading();
                     currentPage++;
                     new UpdateRecyclerViewTask().execute(mAdapter.getItemCount());
