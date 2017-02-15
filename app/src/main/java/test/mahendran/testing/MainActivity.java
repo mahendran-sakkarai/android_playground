@@ -17,9 +17,11 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
     private float number = 1;
+    private boolean isEnalbed = true;
     private RelativeLayout mContainer;
     private Handler mHandler;
     private Runnable mChangeBackgroundRunnable;
+    private ValueAnimator colorAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,32 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                    executeBackgroundChangeUsingValueAnimator();
+                if (isEnalbed) {
+                    startBackgroundChangeAnimation();
                 } else {
-                    executeBackgroundChange();
+                    stopBackgroundChangeAnimation();
                 }
+                isEnalbed = !isEnalbed;
             }
         });
+    }
+
+    private void startBackgroundChangeAnimation() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            executeBackgroundChangeUsingValueAnimator();
+        } else {
+            executeBackgroundChange();
+        }
+    }
+
+    private void stopBackgroundChangeAnimation() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            if (colorAnimation != null && colorAnimation.isRunning())
+                colorAnimation.end();
+        } else {
+            if (mHandler != null && mChangeBackgroundRunnable != null)
+                mHandler.removeCallbacks(mChangeBackgroundRunnable);
+        }
     }
 
     private void executeBackgroundChange() {
@@ -68,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void executeBackgroundChangeUsingValueAnimator() {
-        final ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.red), getResources().getColor(R.color.blue));
+        colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.red), getResources().getColor(R.color.blue));
         colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(final ValueAnimator animator) {
