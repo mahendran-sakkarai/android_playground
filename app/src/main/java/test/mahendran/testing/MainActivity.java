@@ -9,6 +9,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,6 +25,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        PieChart pieChart = (PieChart) findViewById(R.id.chart);
+        List<PieEntry> entries = new ArrayList<>();
+
+        entries.add(new PieEntry(18.5f, "Green"));
+        entries.add(new PieEntry(26.7f, "Yellow"));
+        entries.add(new PieEntry(24.0f, "Red"));
+        entries.add(new PieEntry(30.8f, "Blue"));
+
+        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieData data = new PieData(set);
+        pieChart.setData(data);
+        pieChart.invalidate();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -65,9 +65,9 @@ public class CollapsibleToolbarActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
+        /*RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rv.setAdapter(new RvAdapter());
+        rv.setAdapter(new RvAdapter());*/
     }
 
     private void addSubMenu() {
