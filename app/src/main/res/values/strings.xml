@@ -6,4 +6,6 @@
     <string name="title3">Title 3</string>
     <string name="subtitle1">Sub title 1</string>
     <string name="subtitle2">Sub title 2</string>
+    <string name="travel">Travel</string>
+    <string name="local">Local</string>
 </resources>
