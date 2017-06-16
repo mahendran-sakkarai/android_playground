@@ -9,12 +9,29 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <TextView android:text="Hello World!" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
-    <test.mahendran.testing.PieChart
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:showText="true"
-        app:labelPosition="left" />
+        <android.support.design.widget.TabItem
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:icon="@mipmap/ic_launcher"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:text="abc"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:icon="@mipmap/ic_launcher"/>
+
+    </android.support.design.widget.TabLayout>
+
+    <TextView android:text="Hello World!" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tab" />
 </RelativeLayout>

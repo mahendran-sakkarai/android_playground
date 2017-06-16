@@ -14,6 +14,9 @@
 -->
 
 <resources>
+    <attr name="text" format="string" />
+    <attr name="icon" format="reference" />
+    <attr name="layout" format="reference" />
     <declare-styleable name="PieChart">
         <attr name="autoCenterPointerInSlice" format="boolean"/>
         <attr name="highlightStrength" format="float"/>
@@ -36,9 +39,24 @@
         <attr name="textSize" format="integer" />
         <attr name="textColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="MenuItemView">
+        <attr name="state_highlighted" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="MenuEntry">
-        <attr name="text" format="string" />
-        <attr name="icon" format="reference" />
-        <attr name="layout" format="reference" />
+        <attr name="text" />
+        <attr name="icon" />
+        <attr name="layout" />
+    </declare-styleable>
+    <declare-styleable name="MenuItem">
+        <attr name="text" />
+        <attr name="icon" />
+        <attr name="layout" />
+        <attr name="menuTextSize" format="dimension" />
+        <attr name="menuTextColor" format="color" />
+        <attr name="menuTextStyle" format="enum">
+            <enum name="normal" value="1" />
+            <enum name="bold" value="2" />
+            <enum name="italic" value="3" />
+        </attr>
     </declare-styleable>
 </resources>

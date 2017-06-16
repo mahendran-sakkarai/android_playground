@@ -455,6 +455,7 @@ public class VerticalMenu extends LinearLayout {
     }
 
     public final class MenuItemView extends LinearLayout implements OnLongClickListener {
+        private final int[] STATE_HIGHLIGHT = {R.attr.state_highlighted};
         final CharSequence mText;
         final Drawable mIcon;
         final int mCustomLayout;
@@ -468,6 +469,8 @@ public class VerticalMenu extends LinearLayout {
         private ImageView mCustomIconView;
 
         private int mDefaultMaxLines = 2;
+
+        private boolean mIsHighlighted = false;
 
         public MenuItemView(Context context) {
             this(context, null);
@@ -600,6 +603,24 @@ public class VerticalMenu extends LinearLayout {
 
             if (mCustomView != null)
                 mCustomView.setEnabled(enabled);
+        }
+
+        @Override
+        protected int[] onCreateDrawableState(int extraSpace) {
+            final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+
+            if (mIsHighlighted)
+                mergeDrawableStates(drawableState, STATE_HIGHLIGHT);
+
+            return drawableState;
+        }
+
+        public void setHighlighted(boolean isHighlight) {
+            this.mIsHighlighted = isHighlight;
+        }
+
+        public boolean isHighlighted() {
+            return mIsHighlighted;
         }
 
         void setMenuItem(final MenuItem menuItem) {

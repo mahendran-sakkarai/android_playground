@@ -24,4 +24,14 @@
 
     <style name="Widget_Vertical_MenuLayout"></style>
 
+    <style name="TestStyle">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TestStyle1">
+        <item name="android:textSize">55sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>

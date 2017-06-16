@@ -16,12 +16,31 @@
 package test.mahendran.testing;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements VerticalMenuGroup.OnMenuItemSelectedListener, VerticalMenu.OnMenuItemSelectedListener {
+public class MainActivity extends Activity implements VerticalMenu.OnMenuItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private PopupWindow popupWindow;
+    private Button b1;
+    private View view;
+    private LinearLayout mainView;
+    private TextView mTextTv;
+    private VerticalMenu verticalMenuGroup;
 
     /**
      * Called when the activity is first created.
@@ -33,44 +52,99 @@ public class MainActivity extends Activity implements VerticalMenuGroup.OnMenuIt
         Resources res = getResources();
 
         setContentView(R.layout.main);
-        /*final PieChart pie = (PieChart) this.findViewById(R.id.Pie);
-        pie.addItem("Agamemnon", 2, res.getColor(R.color.seafoam));
-        pie.addItem("Bocephus", 3.5f, res.getColor(R.color.chartreuse));
-        pie.addItem("Calliope", 2.5f, res.getColor(R.color.emerald));
-        pie.addItem("Daedalus", 3, res.getColor(R.color.bluegrass));
-        pie.addItem("Euripides", 1, res.getColor(R.color.turquoise));
-        pie.addItem("Ganymede", 3, res.getColor(R.color.slate));*/
 
-        VerticalMenu verticalMenuGroup = (VerticalMenu) findViewById(R.id.v_menu);
-        verticalMenuGroup.addMenuItem(verticalMenuGroup.newMenuItem().setText("Title 1").setIcon(R.drawable.ic_check));
-        verticalMenuGroup.addMenuItem(verticalMenuGroup.newMenuItem().setText("Title 2").setIcon(R.drawable.ic_check));
-        verticalMenuGroup.addMenuItem(verticalMenuGroup.newMenuItem().setText("Title 3").setIcon(R.drawable.ic_check).setMenuItemBackground(R.drawable.custom_menu_item_background));
-        verticalMenuGroup.addMenuItem(verticalMenuGroup.newMenuItem().setText("Title 4").setIcon(R.mipmap.ic_launcher));
-        verticalMenuGroup.addMenuItem(verticalMenuGroup.newMenuItem().setText("Title 5").setIcon(R.mipmap.ic_launcher));
-        verticalMenuGroup.addMenuItem(verticalMenuGroup.newMenuItem().setText("Title 6").setIcon(R.mipmap.ic_launcher));
-        verticalMenuGroup.generateView();
+        b1 = (Button) findViewById(R.id.nv_button);
+        mainView = (LinearLayout) findViewById(R.id.main_view);
+        mTextTv = (TextView) findViewById(R.id.tv_test);
+        view = getPopupContentView();
 
-        verticalMenuGroup.addOnMenuItemSelectedListener(this);
+        mTextTv.setText(getSpannedString());
+        mTextTv.setPressed(true);
+
+        popupWindow = new PopupWindow(view, 200, 250);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Rect location = locateView(b1);
+                popupWindow.showAtLocation(mainView, Gravity.LEFT|Gravity.TOP, location.left, location.bottom);
+            }
+        });
     }
 
-    @Override
-    public void onMenuItemSelected(VerticalMenuGroup.MenuItem menuItem) {
-        Log.v(TAG, "Selected menu item "+menuItem.getTitle());
+    private CharSequence getSpannedString() {
+        SpannableStringBuilder builder = new SpannableStringBuilder("Testing the Spanned string...");
+
+        ColorStateList colorStateList1 = new ColorStateList(
+                new int[][] {
+                        new int[]{android.R.attr.state_pressed},
+                        new int[]{}
+                },
+                new int[]{
+                        ContextCompat.getColor(this, R.color.blue),
+                        ContextCompat.getColor(this, R.color.bluegrass)
+                }
+        );
+
+        ColorStateList colorStateList2 = new ColorStateList(
+                new int[][] {
+                        new int[]{android.R.attr.state_pressed},
+                        new int[]{}
+                },
+                new int[]{
+                        ContextCompat.getColor(this, R.color.colorAccent),
+                        ContextCompat.getColor(this, R.color.colorAccent)
+                }
+        );
+
+        ColorStateList colorStateList3 = ContextCompat.getColorStateList(this, R.color.color_selector_1);
+
+        builder.setSpan(new TextAppearanceSpan(null, R.style.TestStyle, 25, colorStateList1, null), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new TextAppearanceSpan(null, R.style.TestStyle1, 55, colorStateList3, null), builder.toString().indexOf("Spanned"), builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return builder;
     }
 
-    @Override
-    public void onMenuItemUnSelected(VerticalMenuGroup.MenuItem menuItem) {
-        Log.v(TAG, "UnSelected menu item "+menuItem.getTitle());
+    private View getPopupContentView() {
+        LayoutInflater inflater = LayoutInflater.from(b1.getContext());
+        View popuWindowContent = inflater.inflate(R.layout.popup_window, null, false);
+
+        popuWindowContent.findViewById(R.id.b2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (popupWindow.isShowing())
+                    popupWindow.dismiss();
+            }
+        });
+
+        return popuWindowContent;
     }
 
-    @Override
-    public void onMenuItemReSelected(VerticalMenuGroup.MenuItem menuItem) {
-        Log.v(TAG, "ReSelected menu item "+menuItem.getTitle());
+    public static Rect locateView(View v)
+    {
+        int[] loc_int = new int[2];
+        if (v == null) return null;
+        try
+        {
+            v.getLocationOnScreen(loc_int);
+        } catch (NullPointerException npe)
+        {
+            //Happens when the view doesn't exist on screen anymore.
+            return null;
+        }
+        Rect location = new Rect();
+        location.left = loc_int[0];
+        location.top = loc_int[1];
+        location.right = location.left + v.getWidth();
+        location.bottom = location.top + v.getHeight();
+        return location;
     }
 
     @Override
     public void onMenuItemSelected(VerticalMenu.MenuItem menuItem) {
         Log.v(TAG, "Selected menu item "+menuItem.getText());
+        if (menuItem.getPosition() == 3 || menuItem.getPosition() == 4)
+            verticalMenuGroup.getMenuItemView(menuItem.getPosition()).setHighlighted(false);
     }
 
     @Override

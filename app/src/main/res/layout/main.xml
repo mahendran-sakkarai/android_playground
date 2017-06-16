@@ -15,6 +15,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -37,15 +38,54 @@
         custom:pointerRadius="4dp"
         custom:showText="true" />-->
 
-    <test.mahendran.testing.VerticalMenu
-        android:id="@+id/v_menu"
+    <LinearLayout
         android:layout_width="150dp"
         android:layout_height="match_parent"
-        android:padding="20dp"
-        custom:menuItemTextColor="@color/menu_item_color" />
+        android:orientation="vertical">
+        <test.mahendran.testing.MenuItem
+            android:layout_width="150dp"
+            android:layout_height="140dp"
+            custom:icon="@mipmap/ic_launcher"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+        <test.mahendran.testing.MenuItem
+            android:layout_width="150dp"
+            android:layout_height="140dp"
+            custom:icon="@mipmap/ic_launcher"
+            android:layout_marginTop="-20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+        <test.mahendran.testing.MenuItem
+            android:layout_width="150dp"
+            android:layout_height="140dp"
+            custom:icon="@mipmap/ic_launcher"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+        <test.mahendran.testing.MenuItem
+            android:layout_width="150dp"
+            android:layout_height="140dp"
+            custom:icon="@mipmap/ic_launcher"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+    </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></LinearLayout>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/nv_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="button 1" />
+
+    </RelativeLayout>
 </LinearLayout>
 
