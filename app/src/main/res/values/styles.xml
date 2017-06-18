@@ -14,4 +14,19 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="NormalStyle">
+        <item name="android:fontFamily">@font/noto</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ItalicStyle">
+        <item name="android:fontFamily">@font/noto</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="BoldStyle">
+        <item name="android:fontFamily">@font/noto</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
