@@ -29,4 +29,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextStyleWithIncreased">
+        <item name="android:textSize">150sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

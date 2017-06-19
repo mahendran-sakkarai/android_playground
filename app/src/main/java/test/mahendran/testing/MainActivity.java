@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
@@ -34,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*SpannableStringBuilder builder = new SpannableStringBuilder("Hello World!");
-        builder.setSpan(new TextAppearanceSpan(this, R.style.NormalStyle), 0, 2, 0);
-        builder.setSpan(new TextAppearanceSpan(this, R.style.ItalicStyle), 3, 4, 0);
-        builder.setSpan(new TextAppearanceSpan(this, R.style.BoldStyle), 5, builder.length() - 1, 0);
+        builder.setSpan(new TextAppearanceSpan(this, R.style.NormalStyle), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new TextAppearanceSpan(this, R.style.ItalicStyle), 3, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new TextAppearanceSpan(this, R.style.BoldStyle), 5, builder.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ((TextView)findViewById(R.id.tv7)).setText(builder);*/
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder(Html.fromHtml("Hel<i>lo</i> <b>World!</b>"));
-        stringBuilder.setSpan(new RelativeSizeSpan(1.5f), 0, 5, 0);
+        stringBuilder.setSpan(new TextAppearanceSpan(this, R.style.TextStyleWithIncreased), 0, 5,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ((TextView)findViewById(R.id.tv7)).setText(stringBuilder);
     }
 
