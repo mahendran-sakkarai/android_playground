@@ -9,29 +9,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab"
+    <test.mahendran.testing.SimpleDrawing
+        android:id="@+id/simple_drawing"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-
-        <android.support.design.widget.TabItem
-            android:layout_height="20dp"
-            android:layout_width="20dp"
-            android:icon="@mipmap/ic_launcher"/>
-
-        <android.support.design.widget.TabItem
-            android:layout_height="20dp"
-            android:layout_width="20dp"
-            android:text="abc"/>
-
-        <android.support.design.widget.TabItem
-            android:layout_height="20dp"
-            android:layout_width="20dp"
-            android:icon="@mipmap/ic_launcher"/>
-
-    </android.support.design.widget.TabLayout>
-
-    <TextView android:text="Hello World!" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tab" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
 </RelativeLayout>

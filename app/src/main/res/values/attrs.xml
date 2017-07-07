@@ -14,6 +14,9 @@
 -->
 
 <resources>
+    <attr name="nextEnabled" format="boolean"/>
+    <attr name="previousEnabled" format="boolean"/>
+    <attr name="state_error" format="boolean" />
     <attr name="text" format="string" />
     <attr name="icon" format="reference" />
     <attr name="layout" format="reference" />
@@ -47,16 +50,25 @@
         <attr name="icon" />
         <attr name="layout" />
     </declare-styleable>
+
     <declare-styleable name="MenuItem">
-        <attr name="text" />
+        <attr name="text"/>
         <attr name="icon" />
         <attr name="layout" />
         <attr name="menuTextSize" format="dimension" />
+        <attr name="menuTextWidth" format="dimension" />
         <attr name="menuTextColor" format="color" />
         <attr name="menuTextStyle" format="enum">
             <enum name="normal" value="1" />
             <enum name="bold" value="2" />
             <enum name="italic" value="3" />
         </attr>
+        <attr name="menuTextMargin" format="dimension" />
+        <attr name="menuTextMarginTop" format="dimension" />
+        <attr name="menuTextMarginBottom" format="dimension" />
+        <attr name="menuTextMarginLeft" format="dimension" />
+        <attr name="menuTextMarginRight" format="dimension" />
+        <attr name="nextEnabled"/>
+        <attr name="previousEnabled"/>
     </declare-styleable>
 </resources>
