@@ -3,6 +3,7 @@ package test.mahendran.testing;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,12 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView iv = (ImageView) findViewById(R.id.iv);
         final AnimatedVectorDrawable animatedVectorDrawable = (AnimatedVectorDrawable) iv.getDrawable();
-        animatedVectorDrawable.registerAnimationCallback(new Animatable2.AnimationCallback() {
-            @Override
-            public void onAnimationEnd(Drawable drawable) {
-                animatedVectorDrawable.start();
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            animatedVectorDrawable.registerAnimationCallback(new Animatable2.AnimationCallback() {
+                @Override
+                public void onAnimationEnd(Drawable drawable) {
+                    animatedVectorDrawable.start();
+                }
+            });
+        }
         animatedVectorDrawable.start();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
